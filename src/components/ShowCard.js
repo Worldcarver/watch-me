@@ -2,6 +2,15 @@ import React from 'react';
 
 function ShowCard({show, onShowClicked, onShowDelete}) {
 
+    const {id, name, summary, image} = show
+
+
+    function handleDelete() {
+        fetch(`http://localhost:8081/shows/${id}`, {
+            method: 'DELETE'
+        })
+        onShowDelete(id)
+    }
     /** 
      * This function to get the correct image to show up for the streaming service.
      * 
@@ -33,16 +42,16 @@ function ShowCard({show, onShowClicked, onShowDelete}) {
     }
 
     return(
-        <div className="show-card" onClick={() => console.log("Clicking card...")}>
-            <img src="" alt="cover art" className="show-art"/>
+        <div className="show-card" onClick={() => onShowClicked(show)}>
+            <img src={image} alt="cover art" className="show-art"/>
             <div className="details-container">
                 <header>
-                    <h3>SHOW NAME</h3>                    
+                    <h3>{name}</h3>                    
                 </header>
-                <p>SHOW SUMMARY</p>
+                <p>{summary}</p>
                 <footer>
                     <img src={getStreamingLogo(show.stream_on)} alt={show.stream_on} className="streaming-logo"></img>
-                    <button onClick={() => console.log("Clicked delete...")}>Delete</button>
+                    <button onClick={handleDelete}>Delete</button>
                 </footer>
             </div>
         </div>
